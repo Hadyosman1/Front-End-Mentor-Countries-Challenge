@@ -21,12 +21,12 @@ const CountriesProvider = ({ children }) => {
 
 export default CountriesProvider;
 
-const fetchCountries = async (setData) => {
+ const fetchCountries = async (setData) => {
   try {
     setData((prev) => ({ ...prev, isPending: true }));
-    const res = await fetch("data.json");
+    const res = await fetch("/data.json");
     const data = await res.json();
-
+    console.log(data);
     if (res.ok) {
       console.log(data);
       setData((prev) => ({ ...prev, isPending: false, data: data }));

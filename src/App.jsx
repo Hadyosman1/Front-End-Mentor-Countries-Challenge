@@ -1,13 +1,16 @@
-import Header from "./components/MainContent";
+import { Outlet } from "react-router-dom";
+
 import NavBar from "./components/NavBar";
+import ScrollToTopBtn from "./components/ScrollToTopBtn";
 
 function App() {
   return (
     <>
+      <ScrollToTopBtn />
       <NavBar />
-     
-        <Header />
-      
+      <div className="wrapper">
+        <Outlet />
+      </div>
     </>
   );
 }

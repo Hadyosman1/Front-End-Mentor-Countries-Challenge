@@ -1,5 +1,6 @@
 import { useContext, useMemo, useState } from "react";
 import { CountriesContext } from "../store/CountriesProvider";
+import { Link } from "react-router-dom";
 
 const MainContent = () => {
   const [isDropDownHide, setIsDropDownHide] = useState(true);
@@ -30,16 +31,18 @@ const MainContent = () => {
   const countries = () => {
     if (filteredByRegions) {
       return countriesFilteredByRegions;
-
-    } else if (searchedCountries.length) {
+    } else if (searchByName) {
       return searchedCountries;
-    } else {
-      return data.data;
     }
+    return data.data;
   };
 
   return (
-    <main>
+    <main
+      onClick={() => {
+        if (!isDropDownHide) setIsDropDownHide(true);
+      }}
+    >
       <div className="container">
         <div className="search-and-filter">
           <label htmlFor="search-input">🔍</label>
@@ -51,7 +54,9 @@ const MainContent = () => {
           />
         </div>
         <p className="search-result-length">
-          countries {`( ${countries().length} )`}
+          {countries().length
+            ? `Countries ( ${countries().length} ) `
+            : "No Countries"}
         </p>
 
         <div className="drop-down">
@@ -73,7 +78,11 @@ const MainContent = () => {
 
         <section className="countries-wrapper">
           {countries().map((country) => (
-            <div key={country.name} className="card">
+            <Link
+              to={`single-country/${country.name}`}
+              key={country.name}
+              className="card"
+            >
               <img src={country.flags.png} alt={country.name} />
               <div className="content">
                 <h2>{country.name}</h2>
@@ -83,7 +92,7 @@ const MainContent = () => {
                   <p>Capital: {country.capital}</p>
                 </div>
               </div>
-            </div>
+            </Link>
           ))}
         </section>
       </div>
